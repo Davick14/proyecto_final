@@ -1,15 +1,14 @@
 # Cards4Play - Backend
 
 Sistema backend para la gestion de inventario, clientes, compras, boosters y torneos de Cards4Play (TCG).
-Proyecto final - Institucion Universitaria EAM, Armenia, Colombia.
+Proyecto final - EAM Armenia Colombia.
 
 ## Integrantes
-- Nombre 1
-- Nombre 2
-- Nombre 3
+- Matías Buitrago Lopez
+- David Hurtado Saldarriaga
 
-## Tecnologias
-- Java (IntelliJ IDEA)
+## Tecnologías
+- Java 
 - Spark Java (API REST)
 - Persistencia en archivos JSON
 - Docker

@@ -26,6 +26,8 @@ public class Booster extends Producto {
      * Asigna exactamente diez cartas: primero sortea la rareza segun su probabilidad
      * y luego elige al azar una carta de esa rareza (con regla de respaldo).
      * Las cartas se pueden repetir y no se retiran del inventario.
+     * Bonificacion: el booster siempre incluye al menos una carta de rareza R o superior
+     * (siempre que existan cartas de esas rarezas registradas).
      */
     public void asignarCartasAleatorias(List<Carta> cartasRegistradas) {
         if (cartasRegistradas == null || cartasRegistradas.isEmpty()) {
@@ -38,6 +40,7 @@ public class Booster extends Producto {
             Rareza rareza = sortearRareza(random);
             seleccion.add(elegirCarta(rareza, cartasRegistradas, random));
         }
+        garantizarRaroOSuperior(seleccion, cartasRegistradas, random);
         this.cartasContenidas = seleccion;
     }
 
@@ -111,6 +114,55 @@ public class Booster extends Producto {
         }
 
         return candidatas.get(random.nextInt(candidatas.size()));
+    }
+
+    /**
+     * Si ninguna carta sorteada es R o superior, reemplaza una posicion al azar por una
+     * carta R/SR/UR. La rareza se elige con las probabilidades de la tabla, normalizadas
+     * entre las rarezas R o superiores que tengan cartas registradas.
+     */
+    private void garantizarRaroOSuperior(List<Carta> seleccion, List<Carta> registradas, Random random) {
+        for (Carta carta : seleccion) {
+            if (carta.getRareza().esRaroOSuperior()) {
+                return;
+            }
+        }
+        List<Carta> candidatas = new ArrayList<>();
+        for (Carta carta : registradas) {
+            if (carta.getRareza().esRaroOSuperior()) {
+                candidatas.add(carta);
+            }
+        }
+        if (candidatas.isEmpty()) {
+            return;
+        }
+        Rareza rareza = sortearRarezaEntre(candidatas, random);
+        List<Carta> deEsaRareza = cartasDeRareza(rareza, candidatas);
+        Carta elegida = deEsaRareza.get(random.nextInt(deEsaRareza.size()));
+        seleccion.set(random.nextInt(seleccion.size()), elegida);
+    }
+
+    private Rareza sortearRarezaEntre(List<Carta> candidatas, Random random) {
+        double total = 0;
+        for (Rareza rareza : Rareza.values()) {
+            if (rareza.esRaroOSuperior() && !cartasDeRareza(rareza, candidatas).isEmpty()) {
+                total += rareza.getProbabilidad();
+            }
+        }
+        double tirada = random.nextDouble() * total;
+        double acumulado = 0;
+        Rareza ultima = null;
+        for (Rareza rareza : Rareza.values()) {
+            if (!rareza.esRaroOSuperior() || cartasDeRareza(rareza, candidatas).isEmpty()) {
+                continue;
+            }
+            acumulado += rareza.getProbabilidad();
+            ultima = rareza;
+            if (tirada < acumulado) {
+                return rareza;
+            }
+        }
+        return ultima;
     }
 
     private List<Carta> cartasDeRareza(Rareza rareza, List<Carta> registradas) {

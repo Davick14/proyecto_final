@@ -1,0 +1,29 @@
+# Compilados
+target/
+out/
+build/
+*.class
+*.jar
+*.war
+
+# IntelliJ IDEA
+.idea/
+*.iml
+*.iws
+*.ipr
+
+# Otros IDEs
+.vscode/
+.classpath
+.project
+.settings/
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Datos locales (descomenta si NO quieres versionar los JSON de datos)
+# data/*.json

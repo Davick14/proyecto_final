@@ -8,8 +8,6 @@ import modelo.Carta;
 import modelo.Producto;
 import modelo.ProductoSellado;
 import servicio.InventarioService;
-import servicio.TasaCambio;
-import servicio.TasaCambioService;
 import servicio.UsuarioService;
 import spark.Service;
 
@@ -22,15 +20,12 @@ import java.util.Map;
 public class ProductoController extends ControladorBase {
 
     private final InventarioService inventarioService;
-    private final TasaCambioService tasaCambioService;
     private final Vistas vistas;
 
     public ProductoController(Gson gson, UsuarioService usuarioService,
-                              InventarioService inventarioService,
-                              TasaCambioService tasaCambioService, Vistas vistas) {
+                              InventarioService inventarioService, Vistas vistas) {
         super(gson, usuarioService);
         this.inventarioService = inventarioService;
-        this.tasaCambioService = tasaCambioService;
         this.vistas = vistas;
     }
 
@@ -46,7 +41,7 @@ public class ProductoController extends ControladorBase {
                     textoObligatorio(cuerpo, "nombre"),
                     numeroObligatorio(cuerpo, "precioUSD"),
                     textoObligatorio(cuerpo, "rareza"));
-            return responder(res, 201, vistas.producto(carta, tasaCambioService.obtenerTasa()));
+            return responder(res, 201, vistas.producto(carta));
         });
 
         http.post("/productos-sellados", (req, res) -> {
@@ -56,7 +51,7 @@ public class ProductoController extends ControladorBase {
                     textoObligatorio(cuerpo, "nombre"),
                     numeroObligatorio(cuerpo, "precioUSD"),
                     textoObligatorio(cuerpo, "descripcion"));
-            return responder(res, 201, vistas.producto(sellado, tasaCambioService.obtenerTasa()));
+            return responder(res, 201, vistas.producto(sellado));
         });
 
         http.post("/accesorios", (req, res) -> {
@@ -66,41 +61,37 @@ public class ProductoController extends ControladorBase {
                     textoObligatorio(cuerpo, "nombre"),
                     numeroObligatorio(cuerpo, "precioUSD"),
                     textoObligatorio(cuerpo, "tipo"));
-            return responder(res, 201, vistas.producto(accesorio, tasaCambioService.obtenerTasa()));
+            return responder(res, 201, vistas.producto(accesorio));
         });
 
         // ---------- Consulta (cualquier usuario autenticado) -> 200 ----------
 
         http.get("/productos", (req, res) -> {
             autenticar(req);
-            TasaCambio tasa = tasaCambioService.obtenerTasa();
-            return responder(res, 200, vistas.productos(inventarioService.listarDisponibles(), tasa));
+            return responder(res, 200, vistas.productos(inventarioService.listarDisponibles()));
         });
 
         http.get("/cartas", (req, res) -> {
             autenticar(req);
-            TasaCambio tasa = tasaCambioService.obtenerTasa();
-            return responder(res, 200, vistas.productos(inventarioService.listarPorTipo(Carta.class), tasa));
+            return responder(res, 200, vistas.productos(inventarioService.listarPorTipo(Carta.class)));
         });
 
         http.get("/productos-sellados", (req, res) -> {
             autenticar(req);
-            TasaCambio tasa = tasaCambioService.obtenerTasa();
             return responder(res, 200,
-                    vistas.productos(inventarioService.listarPorTipo(ProductoSellado.class), tasa));
+                    vistas.productos(inventarioService.listarPorTipo(ProductoSellado.class)));
         });
 
         http.get("/accesorios", (req, res) -> {
             autenticar(req);
-            TasaCambio tasa = tasaCambioService.obtenerTasa();
             return responder(res, 200,
-                    vistas.productos(inventarioService.listarPorTipo(Accesorio.class), tasa));
+                    vistas.productos(inventarioService.listarPorTipo(Accesorio.class)));
         });
 
         http.get("/productos/:id", (req, res) -> {
             autenticar(req);
             Producto producto = inventarioService.buscar(req.params(":id"));
-            return responder(res, 200, vistas.producto(producto, tasaCambioService.obtenerTasa()));
+            return responder(res, 200, vistas.producto(producto));
         });
 
         // ---------- Eliminacion (solo administrador) ----------

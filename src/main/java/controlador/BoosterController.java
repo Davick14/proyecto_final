@@ -7,7 +7,6 @@ import modelo.Booster;
 import modelo.Carta;
 import modelo.Cliente;
 import servicio.BoosterService;
-import servicio.TasaCambioService;
 import servicio.UsuarioService;
 import spark.Service;
 
@@ -21,15 +20,12 @@ import java.util.Map;
 public class BoosterController extends ControladorBase {
 
     private final BoosterService boosterService;
-    private final TasaCambioService tasaCambioService;
     private final Vistas vistas;
 
     public BoosterController(Gson gson, UsuarioService usuarioService,
-                             BoosterService boosterService,
-                             TasaCambioService tasaCambioService, Vistas vistas) {
+                             BoosterService boosterService, Vistas vistas) {
         super(gson, usuarioService);
         this.boosterService = boosterService;
-        this.tasaCambioService = tasaCambioService;
         this.vistas = vistas;
     }
 
@@ -43,20 +39,19 @@ public class BoosterController extends ControladorBase {
             Booster booster = boosterService.crearBooster(admin,
                     textoObligatorio(cuerpo, "nombre"),
                     numeroObligatorio(cuerpo, "precioUSD"));
-            return responder(res, 201, vistas.producto(booster, tasaCambioService.obtenerTasa()));
+            return responder(res, 201, vistas.producto(booster));
         });
 
         // Boosters disponibles para la venta, sin contenido
         http.get("/boosters", (req, res) -> {
             autenticar(req);
-            return responder(res, 200,
-                    vistas.productos(boosterService.listarDisponibles(), tasaCambioService.obtenerTasa()));
+            return responder(res, 200, vistas.productos(boosterService.listarDisponibles()));
         });
 
         http.get("/boosters/:id", (req, res) -> {
             autenticar(req);
             Booster booster = boosterService.buscarBooster(req.params(":id"));
-            return responder(res, 200, vistas.producto(booster, tasaCambioService.obtenerTasa()));
+            return responder(res, 200, vistas.producto(booster));
         });
 
         // Solo el dueno (cliente) puede abrirlo, una unica vez

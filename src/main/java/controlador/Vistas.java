@@ -9,7 +9,6 @@ import modelo.DetalleCompra;
 import modelo.Producto;
 import modelo.ProductoSellado;
 import modelo.Torneo;
-import servicio.TasaCambio;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -31,20 +30,20 @@ public class Vistas {
     }
 
     /** Vista para consultas de inventario: incluye precio en COP y origen de la tasa. */
-    public Map<String, Object> producto(Producto producto, TasaCambio tasa) {
+    public Map<String, Object> producto(Producto producto) {
         Map<String, Object> vista = base(producto);
-        vista.put("precioCOP", producto.calcularPrecioCOP(tasa.getValor()));
-        vista.put("fuenteTasa", tasa.getFuente());
+        vista.put("precioCOP", producto.calcularPrecioCOP());
+        vista.put("fuenteTasa", producto.getFuenteTasa());
         if (producto instanceof Booster booster) {
             vista.put("estado", booster.estaVendido() ? "VENDIDO" : "DISPONIBLE");
         }
         return vista;
     }
 
-    public List<Map<String, Object>> productos(List<? extends Producto> lista, TasaCambio tasa) {
+    public List<Map<String, Object>> productos(List<? extends Producto> lista) {
         List<Map<String, Object>> resultado = new ArrayList<>();
         for (Producto producto : lista) {
-            resultado.add(producto(producto, tasa));
+            resultado.add(producto(producto));
         }
         return resultado;
     }

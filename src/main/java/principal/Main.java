@@ -11,10 +11,10 @@ import controlador.ProductoController;
 import controlador.Servidor;
 import controlador.TorneoController;
 import controlador.Vistas;
+import repositorio.AlmacenDatos;
 import servicio.BoosterService;
 import servicio.CompraService;
 import servicio.InventarioService;
-import servicio.TasaCambioService;
 import servicio.TorneoService;
 import servicio.UsuarioService;
 
@@ -32,19 +32,21 @@ public class Main {
     private void arrancar() {
         Gson gson = new GsonBuilder().disableHtmlEscaping().create();
 
-        UsuarioService usuarioService = new UsuarioService();
-        InventarioService inventarioService = new InventarioService();
+        // Una sola clase agrupa todas las listas; los servicios trabajan sobre ella
+        AlmacenDatos almacen = new AlmacenDatos();
+
+        UsuarioService usuarioService = new UsuarioService(almacen);
+        InventarioService inventarioService = new InventarioService(almacen);
         BoosterService boosterService = new BoosterService(inventarioService);
-        TorneoService torneoService = new TorneoService();
-        TasaCambioService tasaCambioService = new TasaCambioService(gson);
-        CompraService compraService = new CompraService(inventarioService, tasaCambioService);
+        TorneoService torneoService = new TorneoService(almacen);
+        CompraService compraService = new CompraService(almacen, inventarioService);
         Vistas vistas = new Vistas();
 
         List<ControladorBase> controladores = List.of(
                 new AuthController(gson, usuarioService),
                 new ClienteController(gson, usuarioService, vistas),
-                new ProductoController(gson, usuarioService, inventarioService, tasaCambioService, vistas),
-                new BoosterController(gson, usuarioService, boosterService, tasaCambioService, vistas),
+                new ProductoController(gson, usuarioService, inventarioService, vistas),
+                new BoosterController(gson, usuarioService, boosterService, vistas),
                 new TorneoController(gson, usuarioService, torneoService, vistas),
                 new CompraController(gson, usuarioService, compraService, vistas)
         );

@@ -1,7 +1,7 @@
 package modelo;
 
 /**
- * Accesorio de juego (protectores, carpetas, tapetes, etc.).
+
  */
 public class Accesorio extends Producto {
 

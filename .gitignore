@@ -1,4 +1,4 @@
-git add README.md .gitignore# Compilados
+# Compilados
 target/
 out/
 build/
@@ -26,4 +26,4 @@ Thumbs.db
 *.log
 
 # Datos locales (descomenta si NO quieres versionar los JSON de datos)
-# data/*.json
+data/*.json

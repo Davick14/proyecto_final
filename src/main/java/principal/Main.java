@@ -15,6 +15,7 @@ import repositorio.AlmacenDatos;
 import servicio.BoosterService;
 import servicio.CompraService;
 import servicio.InventarioService;
+import servicio.TasaCambioService;
 import servicio.TorneoService;
 import servicio.UsuarioService;
 
@@ -32,15 +33,15 @@ public class Main {
     private void arrancar() {
         Gson gson = new GsonBuilder().disableHtmlEscaping().create();
 
-        // Una sola clase agrupa todas las listas; los servicios trabajan sobre ella
         AlmacenDatos almacen = new AlmacenDatos();
+        TasaCambioService tasaCambioService = new TasaCambioService();
 
         UsuarioService usuarioService = new UsuarioService(almacen);
         InventarioService inventarioService = new InventarioService(almacen);
         BoosterService boosterService = new BoosterService(almacen, inventarioService);
         TorneoService torneoService = new TorneoService(almacen);
-        CompraService compraService = new CompraService(almacen, inventarioService);
-        Vistas vistas = new Vistas();
+        CompraService compraService = new CompraService(almacen, inventarioService, tasaCambioService);
+        Vistas vistas = new Vistas(tasaCambioService);
 
         List<ControladorBase> controladores = List.of(
                 new AuthController(gson, usuarioService),

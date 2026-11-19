@@ -19,11 +19,14 @@ public class CompraService {
 
     private final AlmacenDatos almacen;
     private final InventarioService inventarioService;
+    private final TasaCambioService tasaCambioService;
     private final List<Compra> compras;
 
-    public CompraService(AlmacenDatos almacen, InventarioService inventarioService) {
+    public CompraService(AlmacenDatos almacen, InventarioService inventarioService,
+                         TasaCambioService tasaCambioService) {
         this.almacen = almacen;
         this.inventarioService = inventarioService;
+        this.tasaCambioService = tasaCambioService;
         this.compras = almacen.getCompras();
     }
 
@@ -52,15 +55,16 @@ public class CompraService {
             productos.add(producto);
         }
 
-        // 2. Registrar la compra con el precio en COP que cada producto ya tiene fijado
-        Compra compra = new Compra(UUID.randomUUID().toString(), cliente, fuenteTasa(productos));
+        // 2. Consultar tasa vigente y registrar la compra en COP
+        TasaCambioService.ResultadoTasa resultadoTasa = tasaCambioService.obtenerTasa();
+        Compra compra = new Compra(UUID.randomUUID().toString(), cliente, resultadoTasa.fuente());
         for (Producto producto : productos) {
             int cantidad = items.get(producto.getId());
             if (producto instanceof Booster booster) {
                 booster.comprar(cliente);
             }
-            compra.agregarDetalle(new DetalleCompra(producto, cantidad,
-                    producto.calcularPrecioCOP()));
+            double precioUnitarioCOP = producto.calcularPrecioCOP(resultadoTasa.tasa());
+            compra.agregarDetalle(new DetalleCompra(producto, cantidad, precioUnitarioCOP));
         }
         compra.calcularTotal();
         cliente.agregarCompra(compra);
@@ -75,16 +79,5 @@ public class CompraService {
 
     public synchronized List<Compra> listarDeCliente(Cliente cliente) {
         return new ArrayList<>(cliente.getHistorialCompras());
-    }
-
-    /** Si todos los productos usaron la misma fuente de tasa la devuelve; si no, "MIXTA". */
-    private String fuenteTasa(List<Producto> productos) {
-        String fuente = productos.get(0).getFuenteTasa();
-        for (Producto producto : productos) {
-            if (!producto.getFuenteTasa().equals(fuente)) {
-                return "MIXTA";
-            }
-        }
-        return fuente;
     }
 }

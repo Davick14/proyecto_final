@@ -17,10 +17,12 @@ import java.util.UUID;
  */
 public class CompraService {
 
+    private final AlmacenDatos almacen;
     private final InventarioService inventarioService;
     private final List<Compra> compras;
 
     public CompraService(AlmacenDatos almacen, InventarioService inventarioService) {
+        this.almacen = almacen;
         this.inventarioService = inventarioService;
         this.compras = almacen.getCompras();
     }
@@ -63,6 +65,7 @@ public class CompraService {
         compra.calcularTotal();
         cliente.agregarCompra(compra);
         compras.add(compra);
+        almacen.guardar();
         return compra;
     }
 

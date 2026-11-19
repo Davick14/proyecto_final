@@ -5,6 +5,7 @@ import modelo.Booster;
 import modelo.Carta;
 import modelo.Cliente;
 import modelo.Producto;
+import repositorio.AlmacenDatos;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -15,9 +16,11 @@ import java.util.UUID;
  */
 public class BoosterService {
 
+    private final AlmacenDatos almacen;
     private final InventarioService inventarioService;
 
-    public BoosterService(InventarioService inventarioService) {
+    public BoosterService(AlmacenDatos almacen, InventarioService inventarioService) {
+        this.almacen = almacen;
         this.inventarioService = inventarioService;
     }
 
@@ -44,6 +47,8 @@ public class BoosterService {
     /** Abre el booster: 404 si no existe, 403 si es ajeno, 409 si ya fue abierto. */
     public synchronized List<Carta> abrir(Cliente cliente, String boosterId) {
         Booster booster = buscarBooster(boosterId);
-        return cliente.abrirBooster(booster);
+        List<Carta> cartas = cliente.abrirBooster(booster);
+        almacen.guardar();
+        return cartas;
     }
 }

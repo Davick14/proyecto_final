@@ -15,10 +15,12 @@ import java.util.UUID;
  */
 public class UsuarioService {
 
+    private final AlmacenDatos almacen;
     private final Administrador administrador;
     private final List<Cliente> clientes;
 
     public UsuarioService(AlmacenDatos almacen) {
+        this.almacen = almacen;
         this.administrador = almacen.getAdministrador();
         this.clientes = almacen.getClientes();
     }
@@ -42,6 +44,7 @@ public class UsuarioService {
         }
         Cliente cliente = admin.registrarCliente(UUID.randomUUID().toString(), usuario, contrasena);
         clientes.add(cliente);
+        almacen.guardar();
         return cliente;
     }
 

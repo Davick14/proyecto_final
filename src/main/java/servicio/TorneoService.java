@@ -17,9 +17,11 @@ import java.util.UUID;
  */
 public class TorneoService {
 
+    private final AlmacenDatos almacen;
     private final List<Torneo> torneos;
 
     public TorneoService(AlmacenDatos almacen) {
+        this.almacen = almacen;
         this.torneos = almacen.getTorneos();
     }
 
@@ -33,6 +35,7 @@ public class TorneoService {
         }
         Torneo torneo = admin.crearTorneo(UUID.randomUUID().toString(), nombre, fecha, cupoMaximo);
         torneos.add(torneo);
+        almacen.guardar();
         return torneo;
     }
 
@@ -59,6 +62,7 @@ public class TorneoService {
             throw new IllegalStateException("El torneo no tiene cupos disponibles");
         }
         cliente.inscribirEnTorneo(torneo);
+        almacen.guardar();
         return torneo;
     }
 }

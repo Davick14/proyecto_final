@@ -9,6 +9,7 @@ import modelo.DetalleCompra;
 import modelo.Producto;
 import modelo.ProductoSellado;
 import modelo.Torneo;
+import servicio.TasaCambioService;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -21,6 +22,12 @@ import java.util.Map;
  */
 public class Vistas {
 
+    private final TasaCambioService tasaCambioService;
+
+    public Vistas(TasaCambioService tasaCambioService) {
+        this.tasaCambioService = tasaCambioService;
+    }
+
     public Map<String, Object> cliente(Cliente cliente) {
         Map<String, Object> vista = new LinkedHashMap<>();
         vista.put("id", cliente.getId());
@@ -31,19 +38,14 @@ public class Vistas {
 
     /** Vista para consultas de inventario: incluye precio en COP y origen de la tasa. */
     public Map<String, Object> producto(Producto producto) {
-        Map<String, Object> vista = base(producto);
-        vista.put("precioCOP", producto.calcularPrecioCOP());
-        vista.put("fuenteTasa", producto.getFuenteTasa());
-        if (producto instanceof Booster booster) {
-            vista.put("estado", booster.estaVendido() ? "VENDIDO" : "DISPONIBLE");
-        }
-        return vista;
+        return productoConTasa(producto, tasaCambioService.obtenerTasa());
     }
 
-    public List<Map<String, Object>> productos(List<? extends Producto> lista) {
-        List<Map<String, Object>> resultado = new ArrayList<>();
+    public List<java.util.Map<String, Object>> productos(List<? extends Producto> lista) {
+        TasaCambioService.ResultadoTasa resultadoTasa = tasaCambioService.obtenerTasa();
+        List<java.util.Map<String, Object>> resultado = new ArrayList<>();
         for (Producto producto : lista) {
-            resultado.add(producto(producto));
+            resultado.add(productoConTasa(producto, resultadoTasa));
         }
         return resultado;
     }
@@ -60,8 +62,8 @@ public class Vistas {
         return vista;
     }
 
-    public List<Map<String, Object>> cartas(List<Carta> cartas) {
-        List<Map<String, Object>> resultado = new ArrayList<>();
+    public List<java.util.Map<String, Object>> cartas(List<Carta> cartas) {
+        List<java.util.Map<String, Object>> resultado = new ArrayList<>();
         for (Carta carta : cartas) {
             resultado.add(base(carta));
         }
@@ -84,7 +86,7 @@ public class Vistas {
         vista.put("id", compra.getId());
         vista.put("clienteId", compra.getCliente().getId());
         vista.put("fecha", compra.getFecha().toString());
-        List<Map<String, Object>> detalles = new ArrayList<>();
+        List<java.util.Map<String, Object>> detalles = new ArrayList<>();
         for (DetalleCompra detalle : compra.getDetalles()) {
             Map<String, Object> item = new LinkedHashMap<>();
             item.put("producto", productoComprado(detalle.getProducto()));
@@ -99,15 +101,26 @@ public class Vistas {
         return vista;
     }
 
-    public List<Map<String, Object>> compras(List<Compra> lista) {
-        List<Map<String, Object>> resultado = new ArrayList<>();
+    public List<java.util.Map<String, Object>> compras(List<Compra> lista) {
+        List<java.util.Map<String, Object>> resultado = new ArrayList<>();
         for (Compra compra : lista) {
             resultado.add(compra(compra));
         }
         return resultado;
     }
 
-    // ---------- Apoyo interno ----------
+    //Apoyo interno 
+
+    private Map<String, Object> productoConTasa(Producto producto,
+                                                TasaCambioService.ResultadoTasa resultadoTasa) {
+        Map<String, Object> vista = base(producto);
+        vista.put("precioCOP", producto.calcularPrecioCOP(resultadoTasa.tasa()));
+        vista.put("fuenteTasa", resultadoTasa.fuente());
+        if (producto instanceof Booster booster) {
+            vista.put("estado", booster.estaVendido() ? "VENDIDO" : "DISPONIBLE");
+        }
+        return vista;
+    }
 
     private Map<String, Object> base(Producto producto) {
         Map<String, Object> vista = new LinkedHashMap<>();

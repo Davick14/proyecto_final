@@ -37,4 +37,9 @@ public enum Rareza {
         Rareza[] todas = values();
         return ordinal() == todas.length - 1 ? null : todas[ordinal() + 1];
     }
+
+    /** Verdadero para R, SR y UR. */
+    public boolean esRaroOSuperior() {
+        return compareTo(RARO) >= 0;
+    }
 }

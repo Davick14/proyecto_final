@@ -8,6 +8,7 @@ import modelo.Inventario;
 import modelo.Producto;
 import modelo.ProductoSellado;
 import modelo.Rareza;
+import repositorio.AlmacenDatos;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,8 +22,8 @@ public class InventarioService {
 
     private final Inventario inventario;
 
-    public InventarioService() {
-        this.inventario = new Inventario();
+    public InventarioService(AlmacenDatos almacen) {
+        this.inventario = almacen.getInventario();
     }
 
     public synchronized Carta crearCarta(Administrador admin, String nombre, double precioUSD,

@@ -3,6 +3,7 @@ package servicio;
 import modelo.Administrador;
 import modelo.Cliente;
 import modelo.Torneo;
+import repositorio.AlmacenDatos;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
@@ -18,8 +19,8 @@ public class TorneoService {
 
     private final List<Torneo> torneos;
 
-    public TorneoService() {
-        this.torneos = new ArrayList<>();
+    public TorneoService(AlmacenDatos almacen) {
+        this.torneos = almacen.getTorneos();
     }
 
     public synchronized Torneo crearTorneo(Administrador admin, String nombre, String fechaTexto,

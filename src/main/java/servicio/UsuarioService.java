@@ -3,6 +3,7 @@ package servicio;
 import modelo.Administrador;
 import modelo.Cliente;
 import modelo.Usuario;
+import repositorio.AlmacenDatos;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,9 +18,9 @@ public class UsuarioService {
     private final Administrador administrador;
     private final List<Cliente> clientes;
 
-    public UsuarioService() {
-        this.administrador = new Administrador("admin-1", "admin", "admin123");
-        this.clientes = new ArrayList<>();
+    public UsuarioService(AlmacenDatos almacen) {
+        this.administrador = almacen.getAdministrador();
+        this.clientes = almacen.getClientes();
     }
 
     /** Retorna el usuario si las credenciales son correctas, o null si no lo son. */

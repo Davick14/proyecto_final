@@ -20,9 +20,11 @@ import java.util.UUID;
  */
 public class InventarioService {
 
+    private final AlmacenDatos almacen;
     private final Inventario inventario;
 
     public InventarioService(AlmacenDatos almacen) {
+        this.almacen = almacen;
         this.inventario = almacen.getInventario();
     }
 
@@ -31,6 +33,7 @@ public class InventarioService {
         Carta carta = new Carta(UUID.randomUUID().toString(), nombre, precioUSD,
                 interpretarRareza(rarezaTexto));
         inventario.agregarProducto(admin.crearProducto(carta));
+        almacen.guardar();
         return carta;
     }
 
@@ -39,6 +42,7 @@ public class InventarioService {
         ProductoSellado sellado = new ProductoSellado(UUID.randomUUID().toString(), nombre,
                 precioUSD, descripcion);
         inventario.agregarProducto(admin.crearProducto(sellado));
+        almacen.guardar();
         return sellado;
     }
 
@@ -46,12 +50,14 @@ public class InventarioService {
                                                  double precioUSD, String tipo) {
         Accesorio accesorio = new Accesorio(UUID.randomUUID().toString(), nombre, precioUSD, tipo);
         inventario.agregarProducto(admin.crearProducto(accesorio));
+        almacen.guardar();
         return accesorio;
     }
 
     /** Agrega un producto ya construido (por ejemplo un booster) al inventario. */
     public synchronized void agregar(Producto producto) {
         inventario.agregarProducto(producto);
+        almacen.guardar();
     }
 
     /** Todo lo que esta disponible para la venta (boosters vendidos no aparecen). */
@@ -104,6 +110,7 @@ public class InventarioService {
             throw new IllegalStateException("No se puede eliminar un booster que ya fue vendido");
         }
         inventario.quitarProducto(producto);
+        almacen.guardar();
     }
 
     private Rareza interpretarRareza(String texto) {

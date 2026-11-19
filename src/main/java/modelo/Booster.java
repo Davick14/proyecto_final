@@ -13,13 +13,15 @@ public class Booster extends Producto {
 
     private List<Carta> cartasContenidas;
     private boolean abierto;
-    private Cliente propietario;
+    private transient Cliente propietario;
+    private String propietarioId;
 
     public Booster(String id, String nombre, double precioUSD) {
         super(id, nombre, precioUSD);
         this.cartasContenidas = new ArrayList<>();
         this.abierto = false;
         this.propietario = null;
+        this.propietarioId = null;
     }
 
     /**
@@ -53,6 +55,7 @@ public class Booster extends Producto {
             throw new IllegalStateException("El booster ya fue vendido");
         }
         this.propietario = cliente;
+        this.propietarioId = cliente.getId();
     }
 
     /** Abre el booster. Solo su propietario, y una unica vez. */
@@ -73,7 +76,7 @@ public class Booster extends Producto {
     }
 
     public boolean estaVendido() {
-        return propietario != null;
+        return propietario != null || propietarioId != null;
     }
 
     public List<Carta> getCartasContenidas() {
@@ -82,6 +85,14 @@ public class Booster extends Producto {
 
     public Cliente getPropietario() {
         return propietario;
+    }
+
+    public String getPropietarioId() {
+        return propietarioId;
+    }
+
+    public void setPropietario(Cliente propietario) {
+        this.propietario = propietario;
     }
 
     // ---------- Apoyo interno ----------

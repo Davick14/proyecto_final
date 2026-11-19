@@ -8,8 +8,8 @@ import java.util.List;
  */
 public class Cliente extends Usuario {
 
-    private List<Compra> historialCompras;
-    private List<Torneo> torneosInscritos;
+    private transient List<Compra> historialCompras;
+    private transient List<Torneo> torneosInscritos;
 
     public Cliente(String id, String usuario, String contrasena) {
         super(id, usuario, contrasena, RolUsuario.CLIENTE);
@@ -21,7 +21,7 @@ public class Cliente extends Usuario {
         if (compra == null) {
             throw new IllegalArgumentException("La compra no puede ser nula");
         }
-        historialCompras.add(compra);
+        getHistorialCompras().add(compra);
     }
 
     /** Inscribe al cliente en el torneo. Retorna false si no hay cupo o ya estaba inscrito. */
@@ -30,7 +30,7 @@ public class Cliente extends Usuario {
             throw new IllegalArgumentException("El torneo no puede ser nulo");
         }
         if (torneo.inscribirCliente(this)) {
-            torneosInscritos.add(torneo);
+            getTorneosInscritos().add(torneo);
             return true;
         }
         return false;
@@ -44,11 +44,22 @@ public class Cliente extends Usuario {
         return booster.abrir(this);
     }
 
+    public void reiniciarListas() {
+        this.historialCompras = new ArrayList<>();
+        this.torneosInscritos = new ArrayList<>();
+    }
+
     public List<Compra> getHistorialCompras() {
+        if (historialCompras == null) {
+            historialCompras = new ArrayList<>();
+        }
         return historialCompras;
     }
 
     public List<Torneo> getTorneosInscritos() {
+        if (torneosInscritos == null) {
+            torneosInscritos = new ArrayList<>();
+        }
         return torneosInscritos;
     }
 }

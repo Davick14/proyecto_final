@@ -13,7 +13,8 @@ public class Torneo {
     private String nombre;
     private LocalDateTime fechaProgramada;
     private int cupoMaximo;
-    private List<Cliente> participantes;
+    private transient List<Cliente> participantes;
+    private List<String> participantesIds;
 
     public Torneo(String id, String nombre, LocalDateTime fechaProgramada, int cupoMaximo) {
         if (id == null || id.isBlank() || nombre == null || nombre.isBlank()
@@ -25,6 +26,7 @@ public class Torneo {
         this.fechaProgramada = fechaProgramada;
         this.cupoMaximo = cupoMaximo;
         this.participantes = new ArrayList<>();
+        this.participantesIds = new ArrayList<>();
     }
 
     /** Retorna false si no hay cupo o si el cliente ya estaba inscrito. */
@@ -35,16 +37,17 @@ public class Torneo {
         if (!hayCupo() || estaInscrito(cliente)) {
             return false;
         }
-        participantes.add(cliente);
+        getParticipantes().add(cliente);
+        getParticipantesIds().add(cliente.getId());
         return true;
     }
 
     public boolean hayCupo() {
-        return participantes.size() < cupoMaximo;
+        return getParticipantes().size() < cupoMaximo;
     }
 
     public boolean estaInscrito(Cliente cliente) {
-        for (Cliente participante : participantes) {
+        for (Cliente participante : getParticipantes()) {
             if (participante.getId().equals(cliente.getId())) {
                 return true;
             }
@@ -69,6 +72,20 @@ public class Torneo {
     }
 
     public List<Cliente> getParticipantes() {
+        if (participantes == null) {
+            participantes = new ArrayList<>();
+        }
         return participantes;
+    }
+
+    public List<String> getParticipantesIds() {
+        if (participantesIds == null) {
+            participantesIds = new ArrayList<>();
+        }
+        return participantesIds;
+    }
+
+    public void reiniciarParticipantes() {
+        this.participantes = new ArrayList<>();
     }
 }

@@ -5,7 +5,8 @@ package modelo;
  */
 public class DetalleCompra {
 
-    private Producto producto;
+    private transient Producto producto;
+    private String productoId;
     private int cantidad;
     private double precioUnitarioCOP;
     private double subtotalCOP;
@@ -15,6 +16,7 @@ public class DetalleCompra {
             throw new IllegalArgumentException("Datos de detalle de compra invalidos");
         }
         this.producto = producto;
+        this.productoId = producto.getId();
         this.cantidad = cantidad;
         this.precioUnitarioCOP = precioUnitarioCOP;
         calcularSubtotal();
@@ -27,6 +29,14 @@ public class DetalleCompra {
 
     public Producto getProducto() {
         return producto;
+    }
+
+    public String getProductoId() {
+        return productoId;
+    }
+
+    public void setProducto(Producto producto) {
+        this.producto = producto;
     }
 
     public int getCantidad() {

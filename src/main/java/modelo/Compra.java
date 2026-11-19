@@ -10,7 +10,8 @@ import java.util.List;
 public class Compra {
 
     private String id;
-    private Cliente cliente;
+    private transient Cliente cliente;
+    private String clienteId;
     private List<DetalleCompra> detalles;
     private LocalDateTime fecha;
     private double totalPagadoCOP;
@@ -23,6 +24,7 @@ public class Compra {
         }
         this.id = id;
         this.cliente = cliente;
+        this.clienteId = cliente.getId();
         this.fuenteTasa = fuenteTasa;
         this.detalles = new ArrayList<>();
         this.fecha = LocalDateTime.now();
@@ -33,13 +35,13 @@ public class Compra {
         if (detalle == null) {
             throw new IllegalArgumentException("El detalle no puede ser nulo");
         }
-        detalles.add(detalle);
+        getDetalles().add(detalle);
     }
 
     /** Suma los subtotales de los detalles y guarda el resultado en totalPagadoCOP. */
     public double calcularTotal() {
         double total = 0;
-        for (DetalleCompra detalle : detalles) {
+        for (DetalleCompra detalle : getDetalles()) {
             total += detalle.getSubtotalCOP();
         }
         this.totalPagadoCOP = total;
@@ -54,7 +56,18 @@ public class Compra {
         return cliente;
     }
 
+    public String getClienteId() {
+        return clienteId;
+    }
+
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
+    }
+
     public List<DetalleCompra> getDetalles() {
+        if (detalles == null) {
+            detalles = new ArrayList<>();
+        }
         return detalles;
     }
 

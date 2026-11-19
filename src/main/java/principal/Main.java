@@ -37,7 +37,7 @@ public class Main {
 
         UsuarioService usuarioService = new UsuarioService(almacen);
         InventarioService inventarioService = new InventarioService(almacen);
-        BoosterService boosterService = new BoosterService(inventarioService);
+        BoosterService boosterService = new BoosterService(almacen, inventarioService);
         TorneoService torneoService = new TorneoService(almacen);
         CompraService compraService = new CompraService(almacen, inventarioService);
         Vistas vistas = new Vistas();

@@ -19,7 +19,6 @@ ENV PORT=4567
 ENV DATA_DIR=/app/data
 
 RUN mkdir -p /app/data
-VOLUME /app/data
 
 EXPOSE 4567
 CMD ["java", "-jar", "app.jar"]

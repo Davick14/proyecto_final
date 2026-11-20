@@ -37,13 +37,13 @@ public class Compra {
     }
 
     /** Suma los subtotales de los detalles y guarda el resultado en totalPagadoCOP. */
-    public double calcularTotal() {
+    public void  calcularTotal() {
         double total = 0;
         for (DetalleCompra detalle : detalles) {
             total += detalle.getSubtotalCOP();
         }
         this.totalPagadoCOP = total;
-        return total;
+        
     }
 
     public String getId() {

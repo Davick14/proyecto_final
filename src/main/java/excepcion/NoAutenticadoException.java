@@ -1,7 +1,7 @@
 package excepcion;
 
 /**
- * Se lanza cuando la peticion no trae credenciales validas (HTTP 401).
+ * Se lanza cuando la peticion no trae credenciales validas.
  */
 public class NoAutenticadoException extends RuntimeException {
 

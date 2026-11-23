@@ -13,3 +13,6 @@ Proyecto final - EAM Armenia, Colombia.
 - Maven
 - Spark Java (API REST)
 - Gson
+
+## Despliegue
+URL pública: https://proyectofinal-production-39d61254.up.railway.app

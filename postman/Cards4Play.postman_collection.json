@@ -1,0 +1,684 @@
+{
+  "info": {
+    "_postman_id": "ec514866-f6c8-49f1-a82b-0c3fdc8b2df7",
+    "name": "Cards4Play API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "51836350"
+  },
+  "item": [
+    {
+      "name": "Casos Exitosos",
+      "item": [
+        {
+          "name": "Crear Carta (201)",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "admin",
+                  "type": "string"
+                },
+                {
+                  "key": "password",
+                  "value": "{{auth_password_1dkw}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"nombre\": \"Dragón Blanco de Ojos Azules\",\n    \"precioUSD\": 25.0,\n    \"rareza\": \"UR\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/cartas",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "cartas"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Crear Producto Sellado (201)",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "admin",
+                  "type": "string"
+                },
+                {
+                  "key": "password",
+                  "value": "{{auth_password_1dkw}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"nombre\": \"Caja Elite Trainer\",\n    \"precioUSD\": 45.0,\n    \"descripcion\": \"Caja sellada con 8 sobres y accesorios\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/productos-sellados",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "productos-sellados"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Crear Accesorio (201)",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "admin",
+                  "type": "string"
+                },
+                {
+                  "key": "password",
+                  "value": "{{auth_password_1dkw}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"nombre\": \"Tapete de Juego\",\n    \"precioUSD\": 18.0,\n    \"tipo\": \"Playmat\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/accesorios",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "accesorios"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Crear Booster (201)",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "admin",
+                  "type": "string"
+                },
+                {
+                  "key": "password",
+                  "value": "{{auth_password_1dkw}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"nombre\": \"Sobre Leyendas\",\n    \"precioUSD\": 5.0\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/boosters",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "boosters"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Consultar Inventario (200)",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "admin",
+                  "type": "string"
+                },
+                {
+                  "key": "password",
+                  "value": "{{auth_password_1dkw}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/productos",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "productos"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Registrar Cliente (201)",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "admin",
+                  "type": "string"
+                },
+                {
+                  "key": "password",
+                  "value": "{{auth_password_1dkw}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"usuario\": \"jugador1\",\n    \"contrasena\": \"clave123\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/clientes",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "clientes"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Crear Torneo (201)",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "admin",
+                  "type": "string"
+                },
+                {
+                  "key": "password",
+                  "value": "{{auth_password_1dkw}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"nombre\": \"Torneo Local\",\n    \"fechaProgramada\": \"2026-12-31T18:00:00\",\n    \"cupoMaximo\": 10\n}",
+              "options": {
+                "raw": {
+                  "language": "text"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/torneos",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "torneos"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Consultar Torneos (200)",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "admin",
+                  "type": "string"
+                },
+                {
+                  "key": "password",
+                  "value": "{{auth_password_1dkw}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/torneos",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "torneos"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Inscribir Cliente en Torneo (201)",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "jugador1",
+                  "type": "string"
+                },
+                {
+                  "key": "password",
+                  "value": "{{auth_password_0joy}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/torneos/{{torneoId}}/inscripciones",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "torneos",
+                "{{torneoId}}",
+                "inscripciones"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Realizar Compra (201)",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "jugador1",
+                  "type": "string"
+                },
+                {
+                  "key": "password",
+                  "value": "{{auth_password_0joy}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"items\": [\n        { \"productoId\": \"{{cartaId}}\", \"cantidad\": 1 },\n        { \"productoId\": \"{{boosterId}}\", \"cantidad\": 1 }\n    ]\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/compras",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "compras"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Consultar Historial de Compras (200)",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "jugador1",
+                  "type": "string"
+                },
+                {
+                  "key": "password",
+                  "value": "{{auth_password_0joy}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/compras",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "compras"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Abrir Booster (200)",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "jugador1",
+                  "type": "string"
+                },
+                {
+                  "key": "password",
+                  "value": "{{auth_password_0joy}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/boosters/{{boosterId}}/abrir",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "boosters",
+                "{{boosterId}}",
+                "abrir"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Casos de Error",
+      "item": [
+        {
+          "name": "400 Bad Request - Datos invalidos",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "admin",
+                  "type": "string"
+                },
+                {
+                  "key": "password",
+                  "value": "{{auth_password_1dkw}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"nombre\": \"\",\n    \"precioUSD\": -5,\n    \"rareza\": \"INVALIDA\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/cartas",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "cartas"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "401 Unauthorized - Sin autenticacion",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"nombre\": \"Carta Sin Auth\",\n    \"precioUSD\": 10.0,\n    \"rareza\": \"N\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/cartas",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "cartas"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "403 Forbidden - Cliente en accion de administrador",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "jugador1",
+                  "type": "string"
+                },
+                {
+                  "key": "password",
+                  "value": "{{auth_password_0joy}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"nombre\": \"Carta No Autorizada\",\n    \"precioUSD\": 10.0,\n    \"rareza\": \"N\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/cartas",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "cartas"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "404 Not Found - Booster inexistente",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "jugador1",
+                  "type": "string"
+                },
+                {
+                  "key": "password",
+                  "value": "{{auth_password_0joy}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/boosters/id-inexistente/abrir",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "boosters",
+                "id-inexistente",
+                "abrir"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "409 Conflict - Booster ya abierto",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "jugador1",
+                  "type": "string"
+                },
+                {
+                  "key": "password",
+                  "value": "{{auth_password_0joy}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/boosters/{{boosterId}}/abrir",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "boosters",
+                "{{boosterId}}",
+                "abrir"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://proyectofinal-production-39d61254.up.railway.app"
+    },
+    {
+      "key": "cartaId",
+      "value": ""
+    },
+    {
+      "key": "boosterId",
+      "value": ""
+    },
+    {
+      "key": "torneoId",
+      "value": ""
+    },
+    {
+      "key": "auth_password_1dkw",
+      "value": "admin123",
+      "secret": true
+    },
+    {
+      "key": "auth_password_0joy",
+      "value": "clave123",
+      "secret": true
+    }
+  ]
+  
+}
